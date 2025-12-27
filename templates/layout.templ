@@ -1,0 +1,68 @@
+package templates
+
+import "github.com/abdul-hamid-achik/chessdrill/internal/model"
+
+templ Layout(title string, user *model.User) {
+	<!DOCTYPE html>
+	<html lang="en" class="h-full">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<title>{ title }</title>
+			<link rel="stylesheet" href="/static/css/main.css"/>
+			<link rel="preconnect" href="https://fonts.googleapis.com"/>
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+			<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+			<script src="https://unpkg.com/htmx.org@2.0.8"></script>
+		</head>
+		<body class="h-full bg-gray-50 font-sans">
+			@Nav(user)
+			<main class="min-h-[calc(100vh-64px)]">
+				{ children... }
+			</main>
+			<script src="/static/js/dist/main.js"></script>
+		</body>
+	</html>
+}
+
+templ Nav(user *model.User) {
+	<nav class="bg-white shadow-sm border-b border-gray-200">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex justify-between h-16">
+				<div class="flex items-center">
+					<a href="/" class="text-xl font-bold text-primary-600 hover:text-primary-700">
+						ChessDrill
+					</a>
+				</div>
+				<div class="flex items-center space-x-4">
+					if user != nil {
+						<a href="/dashboard" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+							Dashboard
+						</a>
+						<a href="/drill" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+							Practice
+						</a>
+						<a href="/stats" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+							Stats
+						</a>
+						<a href="/settings" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+							Settings
+						</a>
+						<form action="/auth/logout" method="POST" class="inline">
+							<button type="submit" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+								Logout
+							</button>
+						</form>
+					} else {
+						<a href="/login" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+							Login
+						</a>
+						<a href="/register" class="btn btn-primary text-sm">
+							Get Started
+						</a>
+					}
+				</div>
+			</div>
+		</div>
+	</nav>
+}

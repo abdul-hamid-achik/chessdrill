@@ -1,0 +1,73 @@
+package pages
+
+import (
+	"github.com/abdul-hamid-achik/chessdrill/internal/model"
+	"github.com/abdul-hamid-achik/chessdrill/templates"
+)
+
+templ Settings(user *model.User) {
+	@templates.Layout("ChessDrill - Settings", user) {
+		<div class="max-w-4xl mx-auto px-4 py-8">
+			<header class="mb-8">
+				<h1 class="text-3xl font-bold text-gray-900">Settings</h1>
+				<p class="mt-2 text-gray-600">Customize your practice experience</p>
+			</header>
+			
+			<div class="space-y-8">
+				<section class="bg-white rounded-xl shadow-md p-6">
+					<h2 class="text-xl font-semibold text-gray-900 mb-4">Board Preferences</h2>
+					<form 
+						hx-patch="/api/settings"
+						hx-trigger="change"
+						hx-swap="none"
+						class="space-y-6"
+					>
+						<div class="form-group">
+							<label for="perspective">Default Perspective</label>
+							<select id="perspective" name="perspective">
+								<option value="white" selected?={ user.Preferences.Perspective == "white" }>White (bottom)</option>
+								<option value="black" selected?={ user.Preferences.Perspective == "black" }>Black (bottom)</option>
+							</select>
+							<p class="text-sm text-gray-500 mt-1">Which side should be at the bottom of the board by default</p>
+						</div>
+						
+						<div class="form-group">
+							<label class="flex items-center gap-2 cursor-pointer">
+								<input 
+									type="checkbox" 
+									name="show_coordinates" 
+									checked?={ user.Preferences.ShowCoordinates }
+									class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+								/>
+								<span class="text-sm font-medium text-gray-700">Show board coordinates</span>
+							</label>
+							<p class="text-sm text-gray-500 mt-1">Display file and rank labels on the board</p>
+						</div>
+						
+						<div class="form-group">
+							<label for="theme">Theme</label>
+							<select id="theme" name="theme">
+								<option value="light" selected?={ user.Preferences.Theme == "light" }>Light</option>
+								<option value="dark" selected?={ user.Preferences.Theme == "dark" }>Dark</option>
+							</select>
+						</div>
+					</form>
+				</section>
+				
+				<section class="bg-white rounded-xl shadow-md p-6">
+					<h2 class="text-xl font-semibold text-gray-900 mb-4">Account</h2>
+					<div class="space-y-3">
+						<div class="flex items-center gap-4">
+							<span class="text-sm font-medium text-gray-500 w-24">Username:</span>
+							<span class="text-gray-900">{ user.Username }</span>
+						</div>
+						<div class="flex items-center gap-4">
+							<span class="text-sm font-medium text-gray-500 w-24">Email:</span>
+							<span class="text-gray-900">{ user.Email }</span>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	}
+}

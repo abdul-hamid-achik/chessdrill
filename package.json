@@ -1,0 +1,25 @@
+{
+  "name": "chessdrill",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:css && npm run build:js",
+    "build:js": "esbuild static/js/src/main.ts --bundle --outdir=static/js/dist --minify --sourcemap",
+    "build:css": "npx @tailwindcss/cli -i static/css/input.css -o static/css/main.css --minify",
+    "watch": "concurrently \"npm run watch:js\" \"npm run watch:css\"",
+    "watch:js": "esbuild static/js/src/main.ts --bundle --outdir=static/js/dist --watch --sourcemap",
+    "watch:css": "npx @tailwindcss/cli -i static/css/input.css -o static/css/main.css --watch"
+  },
+  "dependencies": {
+    "@lichess-org/chessground": "^9.1.1",
+    "chessops": "^0.14.2",
+    "htmx.org": "^2.0.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "concurrently": "^9.1.2",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  }
+}

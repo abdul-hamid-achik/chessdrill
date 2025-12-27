@@ -1,0 +1,27 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: chessdrill-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=chessdrill
+
+  app:
+    build: .
+    container_name: chessdrill-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017
+      - MONGODB_DATABASE=chessdrill
+      - SESSION_SECRET=${SESSION_SECRET}
+    volumes:
+      - .:/app
+
+volumes:
+  mongo-data:

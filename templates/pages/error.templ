@@ -1,0 +1,51 @@
+package pages
+
+import (
+	"github.com/abdul-hamid-achik/chessdrill/internal/model"
+	"github.com/abdul-hamid-achik/chessdrill/templates"
+)
+
+templ Error(user *model.User, statusCode int, title string, message string) {
+	@templates.Layout("ChessDrill - " + title, user) {
+		<div class="min-h-[60vh] flex items-center justify-center px-4">
+			<div class="text-center">
+				<p class="text-6xl font-bold text-primary-600 mb-4">{ intToStr(statusCode) }</p>
+				<h1 class="text-3xl font-bold text-gray-900 mb-2">{ title }</h1>
+				<p class="text-gray-600 mb-8 max-w-md">{ message }</p>
+				<div class="flex gap-4 justify-center">
+					<a href="/" class="btn btn-primary">Go Home</a>
+					<button onclick="history.back()" class="btn btn-secondary">Go Back</button>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ NotFound(user *model.User) {
+	@Error(user, 404, "Page Not Found", "The page you're looking for doesn't exist or has been moved.")
+}
+
+templ InternalError(user *model.User) {
+	@Error(user, 500, "Internal Server Error", "Something went wrong on our end. Please try again later.")
+}
+
+templ Forbidden(user *model.User) {
+	@Error(user, 403, "Forbidden", "You don't have permission to access this resource.")
+}
+
+func intToStr(n int) string {
+	switch n {
+	case 400:
+		return "400"
+	case 401:
+		return "401"
+	case 403:
+		return "403"
+	case 404:
+		return "404"
+	case 500:
+		return "500"
+	default:
+		return "Error"
+	}
+}

@@ -1,0 +1,94 @@
+version: '3'
+
+dotenv: ['.env']
+
+vars:
+  BINARY_NAME: chessdrill
+  MAIN_PATH: ./cmd/server
+
+tasks:
+  default:
+    desc: Show available tasks
+    cmds:
+      - task --list
+
+  setup:
+    desc: Install all dependencies
+    cmds:
+      - go mod download
+      - go install github.com/a-h/templ/cmd/templ@latest
+      - go install github.com/air-verse/air@latest
+      - npm install
+
+  generate:
+    desc: Generate templ files
+    cmds:
+      - templ generate
+
+  build:ts:
+    desc: Build TypeScript
+    cmds:
+      - npm run build
+
+  build:go:
+    desc: Build Go binary
+    deps: [generate]
+    cmds:
+      - go build -o bin/{{.BINARY_NAME}} {{.MAIN_PATH}}
+
+  build:
+    desc: Build everything for production
+    deps: [generate, build:ts]
+    cmds:
+      - go build -o bin/{{.BINARY_NAME}} {{.MAIN_PATH}}
+
+  dev:
+    desc: Start development with hot reload
+    deps: [mongo:up]
+    cmds:
+      - task: dev:assets &
+      - air
+
+  dev:assets:
+    desc: Watch and rebuild TypeScript
+    cmds:
+      - npm run watch
+
+  mongo:up:
+    desc: Start MongoDB container
+    cmds:
+      - docker compose up -d mongo
+
+  mongo:down:
+    desc: Stop MongoDB container
+    cmds:
+      - docker compose down
+
+  test:
+    desc: Run all tests
+    cmds:
+      - go test ./... -v
+
+  test:coverage:
+    desc: Run tests with coverage
+    cmds:
+      - go test ./... -coverprofile=coverage.out
+      - go tool cover -html=coverage.out -o coverage.html
+
+  lint:
+    desc: Run linters
+    cmds:
+      - go vet ./...
+      - templ fmt .
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf bin/
+      - rm -rf static/js/dist/
+      - rm -f coverage.out coverage.html
+
+  migrate:
+    desc: Create MongoDB indexes
+    cmds:
+      - go run ./cmd/migrate/main.go

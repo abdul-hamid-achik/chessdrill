@@ -1,0 +1,94 @@
+package pages
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/abdul-hamid-achik/chessdrill/internal/model"
+	"github.com/abdul-hamid-achik/chessdrill/templates"
+	"github.com/abdul-hamid-achik/chessdrill/templates/components"
+)
+
+templ Stats(user *model.User, stats *model.OverallStats, heatmap *model.HeatmapData) {
+	@templates.Layout("ChessDrill - Statistics", user) {
+		<div class="max-w-6xl mx-auto px-4 py-8">
+			<header class="mb-8">
+				<h1 class="text-3xl font-bold text-gray-900">Your Statistics</h1>
+				<p class="mt-2 text-gray-600">Detailed breakdown of your performance</p>
+			</header>
+			
+			<section class="mb-8">
+				<h2 class="text-xl font-semibold text-gray-900 mb-4">Overall Performance</h2>
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+					@components.StatsCard("Total Sessions", fmt.Sprintf("%d", stats.TotalSessions), "")
+					@components.StatsCard("Total Attempts", fmt.Sprintf("%d", stats.TotalAttempts), "")
+					@components.AccuracyCard(stats.OverallAccuracy, stats.TotalAttempts, int(stats.OverallAccuracy * float64(stats.TotalAttempts) / 100))
+					@components.ResponseTimeCard(stats.AvgResponseMs)
+				</div>
+			</section>
+			
+			if len(stats.DrillStats) > 0 {
+				<section class="mb-8">
+					<h2 class="text-xl font-semibold text-gray-900 mb-4">By Drill Type</h2>
+					<div class="bg-white rounded-xl shadow-md overflow-hidden">
+						<table class="min-w-full divide-y divide-gray-200">
+							<thead class="bg-gray-50">
+								<tr>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Drill Type</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attempts</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correct</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Accuracy</th>
+									<th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Avg Response</th>
+								</tr>
+							</thead>
+							<tbody class="bg-white divide-y divide-gray-200">
+								for _, ds := range stats.DrillStats {
+									<tr class="hover:bg-gray-50">
+										<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{ formatDrillTypeName(ds.DrillType) }</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{ fmt.Sprintf("%d", ds.TotalAttempts) }</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{ fmt.Sprintf("%d", ds.CorrectAttempts) }</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{ fmt.Sprintf("%.1f%%", ds.Accuracy) }</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{ fmt.Sprintf("%dms", ds.AvgResponseMs) }</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</section>
+			}
+			
+			<section class="mb-8">
+				<h2 class="text-xl font-semibold text-gray-900 mb-4">Square Accuracy Heatmap</h2>
+				<p class="text-gray-600 mb-4">Colors indicate your accuracy for each square. Green = high accuracy, red = needs practice.</p>
+				<div id="heatmap-container" class="bg-white rounded-xl shadow-md p-4 max-w-lg mx-auto">
+					<canvas id="heatmap-canvas" width="480" height="480" class="w-full"></canvas>
+				</div>
+				<script id="heatmap-data" type="application/json">
+					{ templ.Raw(toJSON(heatmap)) }
+				</script>
+			</section>
+		</div>
+	}
+}
+
+func formatDrillTypeName(dt string) string {
+	switch dt {
+	case "name_square":
+		return "Name the Square"
+	case "find_square":
+		return "Find the Square"
+	case "piece_movement":
+		return "Piece Movement"
+	case "move_notation":
+		return "Move Notation"
+	default:
+		return dt
+	}
+}
+
+func toJSON(v interface{}) string {
+	data, err := json.Marshal(v)
+	if err != nil {
+		return "{}"
+	}
+	return string(data)
+}

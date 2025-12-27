@@ -1,0 +1,95 @@
+package pages
+
+import (
+	"github.com/abdul-hamid-achik/chessdrill/internal/model"
+	"github.com/abdul-hamid-achik/chessdrill/templates"
+)
+
+templ Home(user *model.User) {
+	@templates.Layout("ChessDrill - Master Chess Notation", user) {
+		<div class="bg-gradient-to-br from-primary-600 to-primary-800 text-white">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+				<div class="text-center">
+					<h1 class="text-4xl md:text-6xl font-bold mb-6">
+						Master Chess Board Notation
+					</h1>
+					<p class="text-xl md:text-2xl text-primary-100 mb-12 max-w-3xl mx-auto">
+						Learn to recognize squares, understand piece movements, and read chess notation like a pro.
+					</p>
+					<div class="flex flex-col sm:flex-row gap-4 justify-center">
+						if user != nil {
+							<a href="/drill" class="btn bg-white text-primary-600 hover:bg-gray-100 btn-large">
+								Start Practicing
+							</a>
+						} else {
+							<a href="/register" class="btn bg-white text-primary-600 hover:bg-gray-100 btn-large">
+								Get Started Free
+							</a>
+							<a href="/login" class="btn border-2 border-white text-white hover:bg-white/10 btn-large">
+								Login
+							</a>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+			<div class="grid md:grid-cols-3 gap-8 mb-16">
+				<div class="card text-center">
+					<div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+						<svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold mb-2">Square Recognition</h3>
+					<p class="text-gray-600">Learn to instantly identify any square on the chess board.</p>
+				</div>
+				
+				<div class="card text-center">
+					<div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+						<svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold mb-2">Piece Movement</h3>
+					<p class="text-gray-600">Master how each piece moves with interactive drills.</p>
+				</div>
+				
+				<div class="card text-center">
+					<div class="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+						<svg class="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold mb-2">Track Progress</h3>
+					<p class="text-gray-600">See your improvement with detailed statistics and heat maps.</p>
+				</div>
+			</div>
+			
+			<div class="text-center mb-12">
+				<h2 class="text-3xl font-bold mb-4">Drill Types</h2>
+				<p class="text-gray-600 max-w-2xl mx-auto">Choose from multiple practice modes to improve different aspects of your board vision.</p>
+			</div>
+			
+			<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+				<div class="card hover:shadow-lg transition-shadow">
+					<h3 class="text-lg font-semibold mb-2">Name the Square</h3>
+					<p class="text-gray-600 text-sm">A square is highlighted. Type its name (e.g., "e4").</p>
+				</div>
+				<div class="card hover:shadow-lg transition-shadow">
+					<h3 class="text-lg font-semibold mb-2">Find the Square</h3>
+					<p class="text-gray-600 text-sm">Given a square name, click the correct square.</p>
+				</div>
+				<div class="card hover:shadow-lg transition-shadow">
+					<h3 class="text-lg font-semibold mb-2">Piece Movement</h3>
+					<p class="text-gray-600 text-sm">Learn where each piece can legally move.</p>
+				</div>
+				<div class="card hover:shadow-lg transition-shadow">
+					<h3 class="text-lg font-semibold mb-2">Move Notation</h3>
+					<p class="text-gray-600 text-sm">Read notation and identify the correct move.</p>
+				</div>
+			</div>
+		</div>
+	}
+}

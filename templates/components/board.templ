@@ -1,0 +1,29 @@
+package components
+
+templ Board(id string, fen string, perspective string, showCoordinates bool) {
+	<div class="board-wrapper">
+		<div 
+			id={ id }
+			class="chess-board"
+			data-fen={ fen }
+			data-perspective={ perspective }
+			data-coordinates={ boolToString(showCoordinates) }
+		></div>
+	</div>
+}
+
+templ BoardWithControls(id string, fen string, perspective string, showCoordinates bool) {
+	<div class="board-section">
+		@Board(id, fen, perspective, showCoordinates)
+		<div class="board-controls">
+			<button type="button" id="flip-board" class="btn btn-secondary">Flip Board</button>
+		</div>
+	</div>
+}
+
+func boolToString(b bool) string {
+	if b {
+		return "true"
+	}
+	return "false"
+}

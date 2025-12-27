@@ -1,0 +1,58 @@
+package partials
+
+import (
+	"fmt"
+	"github.com/abdul-hamid-achik/chessdrill/internal/model"
+)
+
+templ SessionSummary(summary *model.DrillSessionSummary) {
+	<div class="text-center py-8">
+		<h2 class="text-2xl font-bold mb-6">Session Complete!</h2>
+		
+		<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+			<div class="bg-gray-50 rounded-lg p-4">
+				<div class="text-3xl font-bold text-gray-900">{ fmt.Sprintf("%d", summary.TotalAttempts) }</div>
+				<div class="text-sm text-gray-500">Questions</div>
+			</div>
+			
+			<div class="bg-gray-50 rounded-lg p-4">
+				<div class="text-3xl font-bold text-green-600">{ fmt.Sprintf("%d", summary.Correct) }</div>
+				<div class="text-sm text-gray-500">Correct</div>
+			</div>
+			
+			<div class="bg-gray-50 rounded-lg p-4">
+				<div class="text-3xl font-bold text-primary-600">{ formatAccuracy(summary.Correct, summary.TotalAttempts) }</div>
+				<div class="text-sm text-gray-500">Accuracy</div>
+			</div>
+			
+			<div class="bg-gray-50 rounded-lg p-4">
+				<div class="text-3xl font-bold text-gray-900">{ fmt.Sprintf("%dms", summary.AvgResponseMs) }</div>
+				<div class="text-sm text-gray-500">Avg Response</div>
+			</div>
+			
+			<div class="bg-gray-50 rounded-lg p-4">
+				<div class="text-3xl font-bold text-orange-500">{ fmt.Sprintf("%d", summary.StreakBest) }</div>
+				<div class="text-sm text-gray-500">Best Streak</div>
+			</div>
+		</div>
+		
+		<div class="flex flex-col sm:flex-row gap-4 justify-center">
+			<button 
+				type="button" 
+				class="btn btn-primary"
+				onclick="location.reload()"
+			>
+				Practice Again
+			</button>
+			<a href="/drill" class="btn btn-secondary">Choose Different Drill</a>
+			<a href="/stats" class="btn btn-link">View All Stats</a>
+		</div>
+	</div>
+}
+
+func formatAccuracy(correct, total int) string {
+	if total == 0 {
+		return "0%"
+	}
+	return fmt.Sprintf("%.1f%%", float64(correct)/float64(total)*100)
+}

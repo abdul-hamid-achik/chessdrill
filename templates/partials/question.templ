@@ -1,0 +1,101 @@
+package partials
+
+import "github.com/abdul-hamid-achik/chessdrill/internal/model"
+
+templ DrillQuestion(sessionID string, question *model.Question) {
+	<div class="drill-question" data-session-id={ sessionID } data-target={ question.Target } data-fen={ question.FEN }>
+		if question.Prompt != "" {
+			<div class="text-xl font-bold text-center mb-4 p-4 bg-primary-50 rounded-lg text-primary-800">
+				{ question.Prompt }
+			</div>
+		}
+		
+		if question.Type == model.DrillTypeNameSquare {
+			@NameSquareInput(sessionID, question.Target, string(question.Type))
+		} else if question.Type == model.DrillTypeFindSquare {
+			@FindSquareInstructions(question.Prompt)
+		} else if question.Type == model.DrillTypePieceMovement {
+			@PieceMovementInstructions(question.Prompt)
+		}
+	</div>
+	
+	<script>
+		window.dispatchEvent(new CustomEvent('chessdrill:questionReady', {
+			detail: {
+				sessionId: '{ sessionID }',
+				target: '{ question.Target }',
+				fen: '{ question.FEN }',
+				type: '{ string(question.Type) }'
+			}
+		}));
+		
+		// Show end button, hide start button
+		var endBtn = document.getElementById('end-drill');
+		var startBtn = document.getElementById('start-drill');
+		if (endBtn) endBtn.style.display = 'block';
+		if (startBtn) startBtn.style.display = 'none';
+	</script>
+}
+
+templ NameSquareInput(sessionID string, target string, drillType string) {
+	<form 
+		id="answer-form"
+		class="space-y-4"
+		hx-post="/api/drill/check"
+		hx-target="#feedback-area"
+		hx-swap="innerHTML"
+	>
+		<input type="hidden" name="session_id" value={ sessionID }/>
+		<input type="hidden" name="target" value={ target }/>
+		<input type="hidden" name="drill_type" value={ drillType }/>
+		<input type="hidden" name="response_ms" id="response-ms" value="0"/>
+		
+		<!-- Text Input -->
+		<div class="flex gap-2">
+			<input 
+				type="text" 
+				name="answer" 
+				id="answer-input"
+				placeholder="e.g., e4" 
+				autocomplete="off"
+				autofocus
+				maxlength="2"
+				class="flex-1 px-4 py-3 text-xl font-mono text-center border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent uppercase"
+			/>
+			<button type="submit" class="btn btn-primary px-6">
+				Submit
+			</button>
+		</div>
+		
+		<!-- Button Input -->
+		<div class="space-y-2">
+			<p class="text-sm text-gray-500 text-center">Or use buttons:</p>
+			<div class="flex justify-center gap-1">
+				for _, f := range []string{"a","b","c","d","e","f","g","h"} {
+					<button type="button" class="square-btn file-btn" data-file={ f }>{ f }</button>
+				}
+			</div>
+			<div class="flex justify-center gap-1">
+				for _, r := range []string{"1","2","3","4","5","6","7","8"} {
+					<button type="button" class="square-btn rank-btn" data-rank={ r }>{ r }</button>
+				}
+			</div>
+		</div>
+	</form>
+}
+
+templ FindSquareInstructions(square string) {
+	<div class="text-center p-6 bg-blue-50 rounded-lg">
+		<p class="text-lg text-blue-800">
+			Click on square <span class="font-bold text-2xl">{ square }</span>
+		</p>
+		<p class="text-sm text-blue-600 mt-2">Click directly on the board to answer</p>
+	</div>
+}
+
+templ PieceMovementInstructions(prompt string) {
+	<div class="text-center p-6 bg-green-50 rounded-lg">
+		<p class="text-lg text-green-800">{ prompt }</p>
+		<p class="text-sm text-green-600 mt-2">Click all squares where this piece can legally move</p>
+	</div>
+}

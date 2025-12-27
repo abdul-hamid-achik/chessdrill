@@ -1,0 +1,111 @@
+package pages
+
+import (
+	"github.com/abdul-hamid-achik/chessdrill/internal/model"
+	"github.com/abdul-hamid-achik/chessdrill/templates"
+)
+
+templ DrillSelect(user *model.User) {
+	@templates.Layout("ChessDrill - Select Drill", user) {
+		<div class="max-w-6xl mx-auto px-4 py-8">
+			<header class="mb-8 text-center">
+				<h1 class="text-3xl font-bold text-gray-900">Choose Your Drill</h1>
+				<p class="mt-2 text-gray-600">Select a drill type to start practicing</p>
+			</header>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<a href="/drill/name_square" class="block bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 group">
+					<div class="w-16 h-16 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center text-2xl font-bold mb-4 group-hover:bg-primary-200 transition-colors">
+						?
+					</div>
+					<h2 class="text-xl font-semibold text-gray-900 mb-2">Name the Square</h2>
+					<p class="text-gray-600 mb-4">A square is highlighted on the board. Type its algebraic notation (e.g., "e4").</p>
+					<ul class="text-sm text-gray-500 space-y-1 mb-4">
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Multiple input methods: typing, buttons, or grid
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Practice from white or black's perspective
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Track your response time
+						</li>
+					</ul>
+					<span class="btn btn-primary">Start Drill</span>
+				</a>
+				
+				<a href="/drill/find_square" class="block bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 group">
+					<div class="w-16 h-16 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-primary-200 transition-colors">
+						Click
+					</div>
+					<h2 class="text-xl font-semibold text-gray-900 mb-2">Find the Square</h2>
+					<p class="text-gray-600 mb-4">Given a square name, click on the correct square on the board.</p>
+					<ul class="text-sm text-gray-500 space-y-1 mb-4">
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Develop board visualization skills
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Quick recognition training
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Both perspectives supported
+						</li>
+					</ul>
+					<span class="btn btn-primary">Start Drill</span>
+				</a>
+				
+				<a href="/drill/piece_movement" class="block bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 group">
+					<div class="w-16 h-16 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center text-2xl font-bold mb-4 group-hover:bg-primary-200 transition-colors">
+						N
+					</div>
+					<h2 class="text-xl font-semibold text-gray-900 mb-2">Piece Movement</h2>
+					<p class="text-gray-600 mb-4">A piece is shown on the board. Identify all the squares it can legally move to.</p>
+					<ul class="text-sm text-gray-500 space-y-1 mb-4">
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Practice with Knights, Bishops, Rooks, Queens, Kings
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Enforces real chess movement rules
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Great for beginners learning piece movements
+						</li>
+					</ul>
+					<span class="btn btn-primary">Start Drill</span>
+				</a>
+				
+				<a href="/drill/move_notation" class="block bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 group">
+					<div class="w-16 h-16 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center text-xl font-bold mb-4 group-hover:bg-primary-200 transition-colors">
+						Nf3
+					</div>
+					<h2 class="text-xl font-semibold text-gray-900 mb-2">Move Notation</h2>
+					<p class="text-gray-600 mb-4">Read algebraic notation and click the destination square.</p>
+					<ul class="text-sm text-gray-500 space-y-1 mb-4">
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Practice reading standard chess notation
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Combines piece recognition with square identification
+						</li>
+						<li class="flex items-center gap-2">
+							<span class="w-1.5 h-1.5 bg-primary-500 rounded-full"></span>
+							Essential for studying chess games
+						</li>
+					</ul>
+					<span class="btn btn-primary">Start Drill</span>
+				</a>
+			</div>
+		</div>
+	}
+}

@@ -1,0 +1,23 @@
+package partials
+
+import (
+	"encoding/json"
+	"github.com/abdul-hamid-achik/chessdrill/internal/model"
+)
+
+templ Heatmap(data *model.HeatmapData) {
+	<div class="heatmap-wrapper">
+		<canvas id="heatmap-canvas" width="480" height="480"></canvas>
+		<script id="heatmap-data" type="application/json">
+			{ templ.Raw(toHeatmapJSON(data)) }
+		</script>
+	</div>
+}
+
+func toHeatmapJSON(data *model.HeatmapData) string {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		return "{\"squares\":[]}"
+	}
+	return string(jsonData)
+}
