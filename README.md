@@ -13,15 +13,15 @@ A web application that teaches users to recognize chess board squares using alge
 
 ## Tech Stack
 
-- **Backend**: Go 1.22+, Chi router, templ templates
+- **Backend**: Go 1.25+, Chi router, templ templates
 - **Database**: MongoDB
-- **Frontend**: TypeScript, Tailwind CSS, HTMX
+- **Frontend**: TypeScript, Tailwind CSS v4, HTMX
 - **Chess Board**: Lichess chessground + chessops
 - **Build Tools**: esbuild, Tailwind CLI
 
 ## Prerequisites
 
-- Go 1.22+
+- Go 1.25+
 - Node.js 18+
 - MongoDB 7+ (or use Docker)
 - Task (optional, for task runner)
