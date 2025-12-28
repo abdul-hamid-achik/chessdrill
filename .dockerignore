@@ -1,0 +1,9 @@
+node_modules/
+bin/
+tmp/
+.git/
+.env
+.env.local
+*.log
+server
+chessdrill

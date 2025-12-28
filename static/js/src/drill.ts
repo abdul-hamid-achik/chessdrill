@@ -64,7 +64,7 @@ export class DrillController {
     this.currentQuestion = question;
 
     // Update board based on drill type
-    if (question.fen) {
+    if (question.fen && question.fen !== '8/8/8/8/8/8/8/8') {
       this.board.setPosition(question.fen);
       this.chess.setPosition(question.fen);
     }
@@ -122,11 +122,13 @@ export class DrillController {
       this.handleFindSquareAnswer(square);
     } else if (this.drillType === 'piece_movement') {
       // For piece movement, check if clicked square is a legal destination
-      const legalMoves = calculatePieceMoves(
-        this.currentQuestion.prompt.toLowerCase().split(' ')[3] as PieceType,
-        this.currentQuestion.target
-      );
-      // You could highlight all legal moves or check individually
+      const prompt = this.currentQuestion.prompt || '';
+      const words = prompt.toLowerCase().split(' ');
+      const pieceType = words[3] as PieceType;
+      if (pieceType) {
+        const legalMoves = calculatePieceMoves(pieceType, this.currentQuestion.target);
+        console.log('Legal moves for', pieceType, 'on', this.currentQuestion.target, ':', legalMoves);
+      }
     }
   }
 

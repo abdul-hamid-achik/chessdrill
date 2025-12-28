@@ -9,11 +9,11 @@ RUN npm install
 COPY . .
 RUN templ generate
 RUN npm run build
-RUN CGO_ENABLED=0 GOOS=linux go build -o /chessdrill ./cmd/server
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app/bin/chessdrill ./cmd/server
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=builder /chessdrill .
+COPY --from=builder /app/bin/chessdrill /app/chessdrill
 COPY --from=builder /app/static ./static
 EXPOSE 8080
-CMD ["./chessdrill"]
+CMD ["/app/chessdrill"]

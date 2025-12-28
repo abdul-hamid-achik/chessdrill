@@ -13,8 +13,8 @@ templ Error(user *model.User, statusCode int, title string, message string) {
 				<h1 class="text-3xl font-bold text-gray-900 mb-2">{ title }</h1>
 				<p class="text-gray-600 mb-8 max-w-md">{ message }</p>
 				<div class="flex gap-4 justify-center">
-					<a href="/" class="btn btn-primary">Go Home</a>
-					<button onclick="history.back()" class="btn btn-secondary">Go Back</button>
+					<a href="/" class="px-4 py-2 font-medium bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">Go Home</a>
+					<button onclick="history.back()" class="px-4 py-2 font-medium text-gray-700 bg-white rounded-lg hover:bg-gray-50 transition-colors">Go Back</button>
 				</div>
 			</div>
 		</div>

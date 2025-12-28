@@ -20,8 +20,6 @@ services:
       - MONGODB_URI=mongodb://mongo:27017
       - MONGODB_DATABASE=chessdrill
       - SESSION_SECRET=${SESSION_SECRET}
-    volumes:
-      - .:/app
 
 volumes:
   mongo-data:

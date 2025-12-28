@@ -8,21 +8,29 @@ export class ChessLogic {
   private position: Chess | null = null;
 
   constructor() {
-    // Start with empty board
     this.position = null;
   }
 
   // Set position from FEN
   setPosition(fen: string): boolean {
+    // Skip empty or invalid FENs silently
+    if (!fen || fen === '8/8/8/8/8/8/8/8' || fen === '8/8/8/8/8/8/8/8 w - - 0 1') {
+      this.position = null;
+      return true;
+    }
+
     const setup = parseFen(fen);
     if (setup.isErr) {
-      console.error('Invalid FEN:', fen, setup.error);
+      // Silently ignore invalid FENs for simple drills
+      this.position = null;
       return false;
     }
 
     const pos = Chess.fromSetup(setup.value);
     if (pos.isErr) {
-      console.error('Invalid position:', pos.error);
+      // Position may be invalid for chess rules but FEN parsed ok
+      // This is fine for drill display purposes
+      this.position = null;
       return false;
     }
 

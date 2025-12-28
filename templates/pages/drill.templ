@@ -11,54 +11,54 @@ templ Drill(user *model.User, drillType string) {
 			<div class="grid lg:grid-cols-2 gap-8">
 				<!-- Board Section -->
 				<div class="order-1">
-					<div class="card">
+					<div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
 						<div id="board" class="chess-board rounded-lg overflow-hidden"></div>
 						<div class="flex gap-2 mt-4 justify-center">
-							<button type="button" id="flip-board" class="btn btn-secondary text-sm">
+							<button type="button" id="flip-board" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
 								Flip Board
 							</button>
-							<button type="button" id="toggle-coords" class="btn btn-secondary text-sm">
+							<button type="button" id="toggle-coords" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
 								Toggle Coordinates
 							</button>
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- Controls Section -->
 				<div class="order-2">
-					<div class="card">
+					<div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
 						<div class="flex items-center justify-between mb-6">
-							<h2 class="text-2xl font-bold">{ drillTypeLabel(drillType) }</h2>
-							<a href="/drill" class="text-primary-600 hover:text-primary-800 text-sm">
+							<h2 class="text-2xl font-bold text-gray-900 dark:text-white">{ drillTypeLabel(drillType) }</h2>
+							<a href="/drill" class="text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 text-sm">
 								Change Drill
 							</a>
 						</div>
-						
+
 						<!-- Stats Display -->
-						<div class="grid grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg" id="drill-stats">
+						<div class="grid grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg" id="drill-stats">
 							<div class="text-center">
-								<div class="text-sm text-gray-500">Score</div>
-								<div id="score-display" class="font-bold">0/0 (0%)</div>
+								<div class="text-sm text-gray-500 dark:text-gray-400">Score</div>
+								<div id="score-display" class="font-bold text-gray-900 dark:text-white">0/0 (0%)</div>
 							</div>
 							<div class="text-center">
-								<div class="text-sm text-gray-500">Streak</div>
-								<div id="streak-display" class="font-bold">0</div>
+								<div class="text-sm text-gray-500 dark:text-gray-400">Streak</div>
+								<div id="streak-display" class="font-bold text-gray-900 dark:text-white">0</div>
 							</div>
 							<div class="text-center">
-								<div class="text-sm text-gray-500">Avg Time</div>
-								<div id="time-display" class="font-bold">0ms</div>
+								<div class="text-sm text-gray-500 dark:text-gray-400">Avg Time</div>
+								<div id="time-display" class="font-bold text-gray-900 dark:text-white">0ms</div>
 							</div>
 						</div>
-						
+
 						<!-- Prompt Area -->
 						<div id="prompt-area" class="mb-6"></div>
-						
+
 						<!-- Answer Area (Start button initially) -->
 						<div id="answer-area" class="mb-6">
-							<button 
-								type="button" 
-								id="start-drill" 
-								class="btn btn-primary btn-large w-full"
+							<button
+								type="button"
+								id="start-drill"
+								class="w-full px-6 py-3 text-lg font-medium bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
 								hx-post="/api/drill/start"
 								hx-vals={ `{"drill_type":"` + drillType + `","input_method":"type","perspective":"white"}` }
 								hx-target="#drill-active-area"
@@ -67,18 +67,18 @@ templ Drill(user *model.User, drillType string) {
 								Start Drill
 							</button>
 						</div>
-						
+
 						<!-- Active Drill Area (HTMX loads content here) -->
 						<div id="drill-active-area"></div>
-						
+
 						<!-- Feedback Area -->
 						<div id="feedback-area" class="mb-6"></div>
-						
+
 						<!-- End Button -->
-						<button 
-							type="button" 
-							id="end-drill" 
-							class="btn btn-danger w-full"
+						<button
+							type="button"
+							id="end-drill"
+							class="w-full px-4 py-2 font-medium bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
 							style="display: none;"
 						>
 							End Session

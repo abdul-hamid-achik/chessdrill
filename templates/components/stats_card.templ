@@ -3,34 +3,34 @@ package components
 import "fmt"
 
 templ StatsCard(title string, value string, subtitle string) {
-	<div class="stats-card">
-		<h3 class="stats-title">{ title }</h3>
-		<div class="stats-value">{ value }</div>
+	<div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+		<h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">{ title }</h3>
+		<div class="text-2xl font-bold text-gray-900 dark:text-white">{ value }</div>
 		if subtitle != "" {
-			<div class="stats-subtitle">{ subtitle }</div>
+			<div class="text-xs text-gray-400 dark:text-gray-500">{ subtitle }</div>
 		}
 	</div>
 }
 
 templ AccuracyCard(accuracy float64, total int, correct int) {
-	<div class="stats-card accuracy-card">
-		<h3 class="stats-title">Accuracy</h3>
-		<div class="stats-value">{ fmt.Sprintf("%.1f%%", accuracy) }</div>
-		<div class="stats-subtitle">{ fmt.Sprintf("%d / %d correct", correct, total) }</div>
+	<div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+		<h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Accuracy</h3>
+		<div class="text-2xl font-bold text-gray-900 dark:text-white">{ fmt.Sprintf("%.1f%%", accuracy) }</div>
+		<div class="text-xs text-gray-400 dark:text-gray-500">{ fmt.Sprintf("%d / %d correct", correct, total) }</div>
 	</div>
 }
 
 templ StreakCard(current int, best int) {
-	<div class="stats-card streak-card">
-		<h3 class="stats-title">Streak</h3>
-		<div class="stats-value">{ fmt.Sprintf("%d", current) }</div>
-		<div class="stats-subtitle">{ fmt.Sprintf("Best: %d", best) }</div>
+	<div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+		<h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Streak</h3>
+		<div class="text-2xl font-bold text-gray-900 dark:text-white">{ fmt.Sprintf("%d", current) }</div>
+		<div class="text-xs text-gray-400 dark:text-gray-500">{ fmt.Sprintf("Best: %d", best) }</div>
 	</div>
 }
 
 templ ResponseTimeCard(avgMs int) {
-	<div class="stats-card time-card">
-		<h3 class="stats-title">Avg Response</h3>
-		<div class="stats-value">{ fmt.Sprintf("%dms", avgMs) }</div>
+	<div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+		<h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Avg Response</h3>
+		<div class="text-2xl font-bold text-gray-900 dark:text-white">{ fmt.Sprintf("%dms", avgMs) }</div>
 	</div>
 }

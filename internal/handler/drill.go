@@ -200,7 +200,34 @@ func (h *DrillHandler) EndDrill(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(summary)
 }
 
-// GetLegalMoves returns legal moves for a piece at a given position
+func (h *DrillHandler) GetNextQuestion(w http.ResponseWriter, r *http.Request) {
+	user := middleware.GetUser(r.Context())
+	if user == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	sessionIDStr := r.URL.Query().Get("session_id")
+	if sessionIDStr == "" {
+		http.Error(w, "Missing session_id", http.StatusBadRequest)
+		return
+	}
+
+	sessionID, err := bson.ObjectIDFromHex(sessionIDStr)
+	if err != nil {
+		http.Error(w, "Invalid session ID", http.StatusBadRequest)
+		return
+	}
+
+	question, err := h.drillService.GetNextQuestion(r.Context(), sessionID)
+	if err != nil {
+		http.Error(w, "Failed to get next question", http.StatusInternalServerError)
+		return
+	}
+
+	partials.DrillQuestion(sessionIDStr, question).Render(r.Context(), w)
+}
+
 func (h *DrillHandler) GetLegalMoves(w http.ResponseWriter, r *http.Request) {
 	// This is handled client-side by chessops
 	// But we can provide a server-side fallback

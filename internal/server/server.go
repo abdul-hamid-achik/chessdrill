@@ -78,6 +78,7 @@ func (s *Server) setupRoutes() {
 		r.Post("/drill/check", s.drillHandler.CheckAnswer)
 		r.Post("/drill/end", s.drillHandler.EndDrill)
 		r.Get("/drill/moves", s.drillHandler.GetLegalMoves)
+		r.Get("/drill/question", s.drillHandler.GetNextQuestion)
 
 		r.Get("/stats/heatmap", s.statsHandler.GetHeatmap)
 		r.Get("/stats/overall", s.statsHandler.GetOverall)

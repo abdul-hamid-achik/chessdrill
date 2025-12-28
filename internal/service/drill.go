@@ -172,3 +172,13 @@ func (s *DrillService) generateSinglePieceFEN(pieceType, square string) string {
 func (s *DrillService) GetSessionAttempts(ctx context.Context, sessionID bson.ObjectID) ([]model.Attempt, error) {
 	return s.attemptRepo.FindBySessionID(ctx, sessionID)
 }
+
+func (s *DrillService) GetNextQuestion(ctx context.Context, sessionID bson.ObjectID) (*model.Question, error) {
+	session, err := s.drillSessionRepo.FindByID(ctx, sessionID)
+	if err != nil {
+		return nil, err
+	}
+
+	question := s.GenerateQuestion(session.DrillType, "")
+	return question, nil
+}

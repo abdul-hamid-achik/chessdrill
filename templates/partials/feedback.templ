@@ -1,9 +1,18 @@
 package partials
 
 import "github.com/abdul-hamid-achik/chessdrill/internal/model"
+import "fmt"
 
 templ Feedback(correct bool, message string, sessionID string, nextQuestion *model.Question) {
-	<div class={ "p-4 rounded-lg text-center font-medium mb-4", templ.KV("bg-green-100 text-green-800", correct), templ.KV("bg-red-100 text-red-800", !correct) }>
+	<div
+		id="feedback-data"
+		data-session-id={ sessionID }
+		data-target={ nextQuestion.Target }
+		data-prompt={ nextQuestion.Prompt }
+		data-fen={ nextQuestion.FEN }
+		data-type={ string(nextQuestion.Type) }
+		class={ "p-4 rounded-lg text-center font-medium mb-4", templ.KV("bg-green-100 text-green-800", correct), templ.KV("bg-red-100 text-red-800", !correct) }
+	>
 		if correct {
 			<span class="text-2xl mr-2">&#10003;</span>
 		} else {
@@ -11,17 +20,28 @@ templ Feedback(correct bool, message string, sessionID string, nextQuestion *mod
 		}
 		<span>{ message }</span>
 	</div>
-	
-	<!-- Trigger next question via custom event -->
+
+	<div
+		hx-get={ fmt.Sprintf("/api/drill/question?session_id=%s", sessionID) }
+		hx-trigger="load delay:1500ms"
+		hx-target="#drill-active-area"
+		hx-swap="innerHTML"
+	></div>
+
 	<script>
-		window.dispatchEvent(new CustomEvent('chessdrill:nextQuestion', {
-			detail: {
-				sessionId: '{ sessionID }',
-				target: '{ nextQuestion.Target }',
-				prompt: '{ nextQuestion.Prompt }',
-				fen: '{ nextQuestion.FEN }',
-				type: '{ string(nextQuestion.Type) }'
+		(function() {
+			var el = document.getElementById('feedback-data');
+			if (el) {
+				window.dispatchEvent(new CustomEvent('chessdrill:nextQuestion', {
+					detail: {
+						sessionId: el.dataset.sessionId,
+						target: el.dataset.target,
+						prompt: el.dataset.prompt,
+						fen: el.dataset.fen,
+						type: el.dataset.type
+					}
+				}));
 			}
-		}));
+		})();
 	</script>
 }

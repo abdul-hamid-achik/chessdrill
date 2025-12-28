@@ -48,11 +48,12 @@ function initializeDrill(): void {
 
 function initializeHeatmap(): void {
   const canvas = document.getElementById('heatmap-canvas') as HTMLCanvasElement;
-  const dataScript = document.getElementById('heatmap-data');
-  
-  if (canvas && dataScript) {
+  const container = document.getElementById('heatmap-container');
+
+  if (canvas && container) {
     try {
-      const data = JSON.parse(dataScript.textContent || '{}');
+      const dataStr = container.dataset.heatmap || '{}';
+      const data = JSON.parse(dataStr);
       const renderer = new HeatmapRenderer(canvas);
       renderer.render(data);
     } catch (e) {

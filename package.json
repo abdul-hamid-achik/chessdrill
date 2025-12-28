@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "npm run build:css && npm run build:js",
+    "build": "npm run build:js",
     "build:js": "esbuild static/js/src/main.ts --bundle --outdir=static/js/dist --minify --sourcemap",
     "build:css": "npx @tailwindcss/cli -i static/css/input.css -o static/css/main.css --minify",
     "watch": "concurrently \"npm run watch:js\" \"npm run watch:css\"",
